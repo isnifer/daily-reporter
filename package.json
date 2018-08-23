@@ -1,0 +1,25 @@
+{
+  "name": "tipsi-reporter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": "cli.js",
+  "scripts": {
+    "start": "node cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/isnifer/tipsi-reporter.git"
+  },
+  "keywords": [],
+  "author": "Anton Kuznetsov <isnifer@gmail.com> (https://github.com/isnifer)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/isnifer/tipsi-reporter/issues"
+  },
+  "homepage": "https://github.com/isnifer/tipsi-reporter#readme",
+  "dependencies": {
+    "inquirer": "^6.1.0",
+    "lodash": "^4.17.10"
+  }
+}
