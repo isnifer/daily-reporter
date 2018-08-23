@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "CLI tool for daily reports",
   "main": "index.js",
-  "bin": "index.js",
+  "bin": {
+    "report": "index.js"
+  },
   "scripts": {
     "start": "node index.js"
   },
@@ -19,7 +21,7 @@
   },
   "homepage": "https://github.com/isnifer/tipsi-reporter#readme",
   "dependencies": {
-    "clipboardy": "^1.2.3",
+    "clipboardy": "1.2.3",
     "eslint": "5.4.0",
     "eslint-config-tipsi": "2.1.1",
     "inquirer": "6.1.0",
