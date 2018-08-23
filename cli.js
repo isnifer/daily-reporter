@@ -9,6 +9,65 @@
 
  */
 
+/*
+  THINGS
+
+  Проект (RNA, BACK, etc...) — заполняется один раз при первом заходе
+
+  A) Номер задачи или текст (если введен чисто номер, то подставлять проект,
+     иначе брать введенный текст и тип выполняемой работы ставить CUSTOM)
+
+  B) Тип выполняемой работы (REVIEW, TEST) (DEVELOPMENT by default)
+
+  C) На сколько увеличился срок выполнения задачи
+
+  D) Почему увеличился срок выполнения задачи
+
+  1: A, B
+  2: A, B
+  3: A, B
+  4: A, B
+  5: A, B
+  6: A, C, D
+
+  Схема конечного сообщения:
+
+  SIMPLE_CASE (1—3):
+
+  %QUESTION_TYPE%)
+  [TASK_NUMBER] [[WORK_TYPE]]
+  [TASK_NUMBER] [[WORK_TYPE]]
+  [CUSTOM] DESCRIPTION
+
+  %SUMMARY%)
+  [DISTRACTED] [TASK_NUMBER?] DESCRIPTION
+  [DISTRACTED] [TASK_NUMBER?] DESCRIPTION
+  [DISTRACTED] [TASK_NUMBER?] DESCRIPTION
+  [BLOCK] [TASK_NUMBER?] DESCRIPTION
+  [BLOCK] [TASK_NUMBER?] DESCRIPTION
+  [BLOCK] [TASK_NUMBER?] DESCRIPTION
+  [BLOCK] [TASK_NUMBER?] DESCRIPTION
+  [EST_CHANGES] [TASK_NUMBER] [EST_DIFF] DESCRIPTION
+  [EST_CHANGES] [TASK_NUMBER] [EST_DIFF] DESCRIPTION
+  [EST_CHANGES] [TASK_NUMBER] [EST_DIFF] DESCRIPTION
+  [EST_CHANGES] [TASK_NUMBER] [EST_DIFF] DESCRIPTION
+
+  Человекочитаемый формат сообщения:
+
+  1)
+  [RNA-1546]
+  [RNA-1436] [[REVIEW]]
+  [RNA-1567] [[TEST]]
+
+  SUMMARY)
+  [DISTRACTED] [RNA-1674] Helped Nikolay with Google Pay
+  [BLOCK] Design from Denis
+  [EST_CHANGES] [RNA-1678] [+4h] Bad code refactoring
+
+  DESCRIPTION — обязательное поле
+
+ */
+
 const inquirer = require('inquirer')
 const range = require('lodash/range')
 
