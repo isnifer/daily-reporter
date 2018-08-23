@@ -84,8 +84,6 @@ module.exports = {
     writeFileSync(PATH_TO_REPORT, JSON.stringify(content, null, 2))
 
     const todayReport = [].concat(
-      'Ваш репорт готов:',
-      '',
       // eslint-disable-next-line
       require(PATH_TO_PROFILE).fullName,
       Object.entries(answers).slice(0, 3).reduce((memo, [group, values]) => (
@@ -106,7 +104,13 @@ module.exports = {
     ).join('\n')
 
     // eslint-disable-next-line
-    console.log([todayReport, '', 'Ваш репорт уже в буфере обмена'].join('\n'))
+    console.log([
+      'Ваш репорт готов:',
+      '',
+      todayReport,
+      '',
+      'Вставьте репорт из буфера обмена (да-да, он уже там!) в Slack',
+    ].join('\n'))
 
     clipboardy.writeSync(todayReport)
   },
