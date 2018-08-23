@@ -1,4 +1,5 @@
 const { writeFileSync } = require('fs')
+const clipboardy = require('clipboardy')
 const { PATH_TO_REPORT, PATH_TO_PROFILE, NEXT_QUESTION } = require('./constants')
 
 const rex = /^\[\S*-\d*\]$/
@@ -82,8 +83,7 @@ module.exports = {
 
     writeFileSync(PATH_TO_REPORT, JSON.stringify(content, null, 2))
 
-    // eslint-disable-next-line
-    console.log([].concat(
+    const todayReport = [].concat(
       'Ваш репорт готов:',
       '',
       // eslint-disable-next-line
@@ -103,6 +103,11 @@ module.exports = {
             : values.reduce(summaryLines[index].reducer(summaryLines[index].name), [])
         )
       ), [])
-    ).join('\n'))
+    ).join('\n')
+
+    // eslint-disable-next-line
+    console.log([todayReport, '', 'Ваш репорт уже в буфере обмена'].join('\n'))
+
+    clipboardy.writeSync(todayReport)
   },
 }
