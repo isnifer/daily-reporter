@@ -56,13 +56,14 @@ module.exports = {
     const SIMPLE_QUESTIONS = QUESTIONS.slice(0, 3)
     const SUMMARY = QUESTIONS.slice(3)
 
+    const summaryLines = SUMMARY.reduce(summaryQuestionsReducer, [])
+    const summaryReport = summaryLines.length ? ['', 'Summary', ...summaryLines] : []
+
     const todayReport = [].concat(
       // eslint-disable-next-line
       require(PATH_TO_PROFILE).fullName,
       SIMPLE_QUESTIONS.reduce(simpleQuestionsReducer, []),
-      '',
-      'Summary',
-      SUMMARY.reduce(summaryQuestionsReducer, [])
+      summaryReport
     ).join('\n')
 
     // eslint-disable-next-line

@@ -47,10 +47,8 @@ const summaryLines = [
 ]
 
 const summaryQuestionsReducer = (memo, [, values], index) => (
-  memo.concat(
-    !values.length
-      ? `${summaryLines[index].name} —`
-      : values.reduce(summaryLines[index].reducer(summaryLines[index].name), [])
+  !values.length ? memo : memo.concat(
+    values.reduce(summaryLines[index].reducer(summaryLines[index].name), [])
   )
 )
 
