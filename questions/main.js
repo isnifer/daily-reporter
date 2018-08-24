@@ -26,7 +26,7 @@ module.exports = {
       type: 'list',
       name: 'role',
       message: 'Выберите вашу роль в команде',
-      choices: ['Frontend Developer', 'Backend Developer', 'QA'],
+      choices: ['Frontend Developer', 'Backend Developer', 'QA', 'Designer'],
     },
     {
       type: 'list',
