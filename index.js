@@ -35,21 +35,21 @@
   Пример JSON:
   {
     1: [
-      { TASK_NUMBER, WORK_TYPE },
+      { TASK_NUMBER, WORK },
     ],
     2: [
-      { TASK_NUMBER, WORK_TYPE },
+      { TASK_NUMBER, WORK },
     ],
     3: [
-      { TASK_NUMBER: CUSTOM, WORK_TYPE },
+      { TASK_NUMBER: CUSTOM, WORK },
     ],
     4: [
-      { TASK_NUMBER, WORK_TYPE },
-      { TASK_NUMBER: CUSTOM, WORK_TYPE },
+      { TASK_NUMBER, WORK },
+      { TASK_NUMBER: CUSTOM, WORK },
     ],
     5: [
-      { TASK_NUMBER, WORK_TYPE },
-      { TASK_NUMBER: CUSTOM, WORK_TYPE },
+      { TASK_NUMBER, WORK },
+      { TASK_NUMBER: CUSTOM, WORK },
     ],
     6: [
       { TASK_NUMBER, EST_DIFF, DESCRIPTION },
@@ -61,8 +61,8 @@
   SIMPLE_CASE (1—3):
 
   %QUESTION_TYPE%)
-  [TASK_NUMBER] [[WORK_TYPE]]
-  [TASK_NUMBER] [[WORK_TYPE]]
+  [TASK_NUMBER] [[WORK]]
+  [TASK_NUMBER] [[WORK]]
   [CUSTOM] DESCRIPTION
 
   %SUMMARY%)
@@ -98,8 +98,8 @@ const inquirer = require('inquirer')
 const { updateReport, writeReport } = require('./report')
 const main = require('./questions/main')
 
-let regular
-let refinement
+let regular = {}
+let refinement = {}
 
 function askRegularQuestion(item) {
   return inquirer.prompt(regular.getQuestion(item))
@@ -114,7 +114,7 @@ function askRegularQuestion(item) {
         return true
       }
 
-      if (refinement.questions[nextQuestion]) {
+      if (refinement[nextQuestion]) {
         return askRefinementQuestion(nextQuestion, item)
       }
 
@@ -123,7 +123,7 @@ function askRegularQuestion(item) {
 }
 
 function askRefinementQuestion(questionName, regularQuestion) {
-  const currentQuestion = refinement.questions[questionName]
+  const currentQuestion = refinement[questionName]
 
   return inquirer.prompt(currentQuestion)
     .then(answers => updateReport(answers, regularQuestion, questionName))

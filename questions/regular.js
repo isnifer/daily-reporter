@@ -1,11 +1,6 @@
 const isEmpty = require('lodash/isEmpty')
 const get = require('lodash/get')
-const {
-  NEXT_QUESTION,
-  REGULAR_TYPES,
-  REGULAR_QUESTIONS,
-  PATH_TO_PROFILE,
-} = require('../constants')
+const { NEXT_QUESTION, REGULAR_TYPES, REGULAR_QUESTIONS, PATH_TO_PROFILE } = require('../constants')
 
 // eslint-disable-next-line
 const { taskType } = require(PATH_TO_PROFILE)
@@ -17,54 +12,26 @@ const isTaskANumber = (rawValue) => {
   return get(numbers, 'length') === value.length
 }
 
+const defaultRegularFilter = (value) => {
+  if (isTaskANumber(value) || isEmpty(value)) {
+    return transformer(value)
+  }
+
+  return value
+}
+
 module.exports = {
   questions: REGULAR_QUESTIONS,
-  getQuestion: (id) => {
-    const { name, message } = REGULAR_QUESTIONS[id]
-
-    return {
-      type: 'input',
-      name,
-      message,
-      filter: (value) => {
-        if (isTaskANumber(value) || isEmpty(value)) {
-          return transformer(value)
-        }
-
-        return value
-      },
-    }
-  },
+  getQuestion: id => ({
+    type: 'input',
+    filter: defaultRegularFilter,
+    ...REGULAR_QUESTIONS[id],
+  }),
   FIRST_QUESTION: REGULAR_TYPES.YESTERDAY,
   NEXT_QUESTION,
   callback: (answers) => {
-    const [[question, answer]] = Object.entries(answers)
-    const { SUBQUESTION_TYPES } = require('./refinement')
+    const [[question, response]] = Object.entries(answers)
 
-    // Если пришел ответ на последний вопрос об эстимейте
-    if (question === REGULAR_TYPES.EST_CHANGES) {
-      // Если ответить нечего, то выходим
-      if (answer === NEXT_QUESTION) {
-        return 'DONE'
-      }
-
-      // Иначе следующий вопрос о том насколько увеличился эстимейт
-      return SUBQUESTION_TYPES.EST_DIFF
-    }
-
-    if (question === REGULAR_TYPES.BLOCK && answer !== NEXT_QUESTION) {
-      return 'SAME'
-    }
-
-    // Если пришел ответ на вопрос не об эстимейте, то нужно отправить вопрос о типе работы
-    if (question !== REGULAR_TYPES.EST_CHANGES && answer !== NEXT_QUESTION) {
-      return SUBQUESTION_TYPES.WORK_TYPE
-    }
-
-    if (answer === NEXT_QUESTION) {
-      return parseInt(question, 10) + 1
-    }
-
-    return false
+    return REGULAR_QUESTIONS[question].then({ question, response })
   },
 }

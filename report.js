@@ -1,46 +1,15 @@
 const { writeFileSync } = require('fs')
 const clipboardy = require('clipboardy')
-const { PATH_TO_REPORT, PATH_TO_PROFILE, NEXT_QUESTION } = require('./constants')
+const {
+  PATH_TO_REPORT,
+  PATH_TO_PROFILE,
+  NEXT_QUESTION,
+  TASK_TYPES,
+  TASK_NUMBER_REGEX,
+} = require('./constants')
+const { simpleQuestionsReducer, summaryQuestionsReducer } = require('./parsers')
 
-const rex = /^\[\S*-\d*\]$/
 const answers = {}
-
-const getTaskName = (answer) => {
-  let description
-
-  if (answer.TASK_NUMBER === '[CUSTOM]') {
-    description = answer.DESCRIPTION
-  } else if (answer.WORK_TYPE !== 'DEVELOPMENT') {
-    description = `[[${answer.WORK_TYPE}]]`
-  } else {
-    description = ''
-  }
-
-  return `${answer.TASK_NUMBER} ${description}`
-}
-
-const simpleReducer = (acc, answer) => acc.concat(getTaskName(answer))
-
-const inlineReducer = groupName => (acc, answer) => (
-  acc.concat(`${groupName} ${getTaskName(answer)}`)
-)
-
-const summaryLines = [
-  {
-    name: '[DISTRACTED]',
-    reducer: inlineReducer,
-  },
-  {
-    name: '[BLOCK]',
-    reducer: inlineReducer,
-  },
-  {
-    name: '[EST_CHANGES]',
-    reducer: groupName => (acc, answer) => (
-      acc.concat(`${groupName} ${answer.TASK_NUMBER} ${answer.EST_DIFF} ${answer.EST_DESCRIPTION}`)
-    ),
-  },
-]
 
 module.exports = {
   updateReport: (response, regularQuestion, refinementQuestion) => {
@@ -55,8 +24,8 @@ module.exports = {
       }
 
       if (regularQuestion && !refinementQuestion) {
-        const TASK_NUMBER = rex.test(answer) ? answer : '[CUSTOM]'
-        const DESCRIPTION = rex.test(answer) ? null : { DESCRIPTION: answer }
+        const TASK_NUMBER = TASK_NUMBER_REGEX.test(answer) ? answer : `[${TASK_TYPES.CUSTOM}]`
+        const DESCRIPTION = TASK_NUMBER_REGEX.test(answer) ? null : { DESCRIPTION: answer }
 
         answers[regularQuestion].push({
           TASK_NUMBER,
@@ -83,24 +52,17 @@ module.exports = {
 
     writeFileSync(PATH_TO_REPORT, JSON.stringify(content, null, 2))
 
+    const QUESTIONS = Object.entries(answers)
+    const SIMPLE_QUESTIONS = QUESTIONS.slice(0, 3)
+    const SUMMARY = QUESTIONS.slice(3)
+
     const todayReport = [].concat(
       // eslint-disable-next-line
       require(PATH_TO_PROFILE).fullName,
-      Object.entries(answers).slice(0, 3).reduce((memo, [group, values]) => (
-        memo.concat(
-          `${group})${!values.length ? ' —' : ''}`,
-          values.reduce(simpleReducer, [])
-        )
-      ), []),
+      SIMPLE_QUESTIONS.reduce(simpleQuestionsReducer, []),
       '',
       'Summary',
-      Object.entries(answers).slice(3).reduce((memo, [, values], index) => (
-        memo.concat(
-          !values.length
-            ? `${summaryLines[index].name} —`
-            : values.reduce(summaryLines[index].reducer(summaryLines[index].name), [])
-        )
-      ), [])
+      SUMMARY.reduce(summaryQuestionsReducer, [])
     ).join('\n')
 
     // eslint-disable-next-line
