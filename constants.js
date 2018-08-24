@@ -28,8 +28,24 @@ const TASK_TYPES = {
   DEVELOPMENT: 'DEVELOPMENT',
   REVIEW: 'REVIEW',
   TEST: 'TEST',
+  DESIGN: 'DESIGN',
+  DOCUMENTATION: 'DOCUMENTATION',
   CUSTOM: 'CUSTOM',
 }
+
+const TEAM_ROLES = {
+  FRONTEND: 'Frontend Developer',
+  BACKEND: 'Backend Developer',
+  QA: 'QA',
+  DESIGNER: 'Designer',
+}
+
+const TEAM_ROLES_ARRAY = [
+  TEAM_ROLES.FRONTEND,
+  TEAM_ROLES.BACKEND,
+  TEAM_ROLES.QA,
+  TEAM_ROLES.DESIGNER,
+]
 
 const moveToTheNextQustion = question => parseInt(question, 10) + 1
 
@@ -118,4 +134,6 @@ module.exports = {
   REFINEMENT_TYPES,
   TASK_TYPES,
   TASK_NUMBER_REGEX,
+  TEAM_ROLES,
+  TEAM_ROLES_ARRAY,
 }

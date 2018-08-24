@@ -1,6 +1,6 @@
 const { writeFileSync } = require('fs')
 const isNil = require('lodash/isNil')
-const { PATH_TO_PROFILE, PATH_TO_REPORT } = require('../constants')
+const { PATH_TO_PROFILE, PATH_TO_REPORT, TEAM_ROLES_ARRAY } = require('../constants')
 
 module.exports = {
   questions: [
@@ -26,7 +26,7 @@ module.exports = {
       type: 'list',
       name: 'role',
       message: 'Выберите вашу роль в команде',
-      choices: ['Frontend Developer', 'Backend Developer', 'QA', 'Designer'],
+      choices: TEAM_ROLES_ARRAY,
     },
     {
       type: 'list',

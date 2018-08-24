@@ -1,6 +1,6 @@
 const isEmpty = require('lodash/isEmpty')
 const isInteger = require('lodash/isInteger')
-const { PATH_TO_PROFILE, REFINEMENT_TYPES, TASK_TYPES } = require('../constants')
+const { PATH_TO_PROFILE, REFINEMENT_TYPES, TASK_TYPES, TEAM_ROLES } = require('../constants')
 
 // eslint-disable-next-line
 const profile = require(PATH_TO_PROFILE)
@@ -10,11 +10,15 @@ module.exports = {
     type: 'list',
     name: REFINEMENT_TYPES.WORK,
     choices: () => {
-      if (profile.role === 'QA') {
-        return [TASK_TYPES.TEST, TASK_TYPES.DEVELOPMENT]
+      if (profile.role === TEAM_ROLES.QA) {
+        return [TASK_TYPES.TEST, TASK_TYPES.DOCUMENTATION, TASK_TYPES.DEVELOPMENT]
       }
 
-      return [TASK_TYPES.DEVELOPMENT, TASK_TYPES.REVIEW]
+      if (profile.role === TEAM_ROLES.DESIGNER) {
+        return [TASK_TYPES.DESIGN, TASK_TYPES.DOCUMENTATION]
+      }
+
+      return [TASK_TYPES.DEVELOPMENT, TASK_TYPES.REVIEW, TASK_TYPES.DOCUMENTATION]
     },
     message: 'Выберите тип выполняемой работы',
     callback: () => 'SAME',
