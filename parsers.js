@@ -39,6 +39,10 @@ const summaryLines = [
     reducer: distractedBlockReducer,
   },
   {
+    name: '[TASK_WAS_CHANGED]',
+    reducer: distractedBlockReducer,
+  },
+  {
     name: '[EST_CHANGES]',
     reducer: groupName => (acc, answer) => (
       acc.concat(`${groupName} ${answer.TASK_NUMBER} ${answer.EST_DIFF} ${answer.EST_DESCRIPTION}`)

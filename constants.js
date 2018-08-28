@@ -14,7 +14,8 @@ const REGULAR_TYPES = {
   TOMORROW: '3',
   DISTRACTED: '4',
   BLOCK: '5',
-  EST_CHANGES: '6',
+  TASK_WAS_CHANGED: '6',
+  EST_CHANGES: '7',
 }
 
 const REFINEMENT_TYPES = {
@@ -62,7 +63,7 @@ const simpleQuestionsReaction = ({ question, response }) => {
   return moveToTheNextQustion(question)
 }
 
-const distractedBlockQuestionsReaction = ({ question, response }) => {
+const simpleSummaryQuestionsReaction = ({ question, response }) => {
   if (response !== NEXT_QUESTION) {
     // If response is a task number
     if (TASK_NUMBER_REGEX.test(response)) {
@@ -102,12 +103,17 @@ const REGULAR_QUESTIONS = {
   [REGULAR_TYPES.DISTRACTED]: {
     name: REGULAR_TYPES.DISTRACTED,
     message: 'Было отвлечение на задачу',
-    then: distractedBlockQuestionsReaction,
+    then: simpleSummaryQuestionsReaction,
   },
   [REGULAR_TYPES.BLOCK]: {
     name: REGULAR_TYPES.BLOCK,
     message: 'Меня блокирует',
-    then: distractedBlockQuestionsReaction,
+    then: simpleSummaryQuestionsReaction,
+  },
+  [REGULAR_TYPES.TASK_WAS_CHANGED]: {
+    name: REGULAR_TYPES.TASK_WAS_CHANGED,
+    message: 'В процессе выполнения изменились требования для задачи',
+    then: simpleSummaryQuestionsReaction,
   },
   [REGULAR_TYPES.EST_CHANGES]: {
     name: REGULAR_TYPES.EST_CHANGES,
