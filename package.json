@@ -4,11 +4,11 @@
   "description": "CLI tool for daily reports",
   "main": "index.js",
   "bin": {
-    "report": "index.js",
-    "pub": "npm publish ./ --access public"
+    "report": "index.js"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "pub": "npm publish ./ --access public"
   },
   "repository": {
     "type": "git",
