@@ -1,10 +1,11 @@
 {
-  "name": "tipsi-reporter",
+  "name": "@isnifer/daily-reporter",
   "version": "1.1.4",
   "description": "CLI tool for daily reports",
   "main": "index.js",
   "bin": {
-    "report": "index.js"
+    "report": "index.js",
+    "pub": "npm publish ./ --access public"
   },
   "scripts": {
     "start": "node index.js"
@@ -22,12 +23,14 @@
   "homepage": "https://github.com/isnifer/tipsi-reporter#readme",
   "dependencies": {
     "clipboardy": "1.2.3",
-    "eslint": "5.4.0",
-    "eslint-config-tipsi": "2.1.1",
-    "inquirer": "6.1.0",
-    "lodash": "4.17.10"
+    "inquirer": "^6.2.2",
+    "lodash": "^4.17.11"
   },
   "eslintConfig": {
-    "extends": "tipsi"
+    "extends": "@detools/eslint-config"
+  },
+  "devDependencies": {
+    "@detools/eslint-config": "^1.2.0",
+    "eslint": "^5.15.3"
   }
 }
