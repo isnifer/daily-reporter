@@ -12,15 +12,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/isnifer/tipsi-reporter.git"
+    "url": "git+https://github.com/isnifer/daily-reporter.git"
   },
   "keywords": [],
   "author": "Anton Kuznetsov <isnifer@gmail.com> (https://github.com/isnifer)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/isnifer/tipsi-reporter/issues"
+    "url": "https://github.com/isnifer/daily-reporter/issues"
   },
-  "homepage": "https://github.com/isnifer/tipsi-reporter#readme",
+  "homepage": "https://github.com/isnifer/daily-reporter#readme",
   "dependencies": {
     "clipboardy": "1.2.3",
     "inquirer": "^6.2.2",
